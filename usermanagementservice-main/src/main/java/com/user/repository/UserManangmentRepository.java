@@ -7,8 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.user.model.TrackingInfo;
 
+
 public interface UserManangmentRepository extends JpaRepository<TrackingInfo, Long> {
 	
-	@Query(value = "select CARGO_ID, COURSE, DIRECTION, ESEAL, LATITUDE, LONGITUDE, SPEED, STATUS from cargo.tracking_info t where t.STATUS = 1", nativeQuery = true)
-	List<TrackingInfo> getActiveTrakingList();
+	@Query(value = "select TRACKER_ID, CARGO_ID, SPEED, DIRECTION, COURSE, LONGITUDE, LATITUDE, ESEAL, STATUS, CREATED_DT, UPDATED_DT, INSERTED_By, UPDATED_BY, DEVICE_ID, VEHICLE_NO from cargo.tracking_info t where t.UPDATED_DT >= (:lastTimeStamp)", nativeQuery = true)
+	List<TrackingInfo> getLatestActiveTrakingList(String lastTimeStamp);
 }

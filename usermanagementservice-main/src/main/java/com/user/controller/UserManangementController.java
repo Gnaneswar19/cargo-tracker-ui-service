@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.user.model.TrackingInfo;
@@ -18,7 +19,7 @@ import com.user.service.UserManangmentService;
 
 
 @RestController
-@RequestMapping("/api/user-service")
+@RequestMapping("/api/tracker-monitor-service")
 public class UserManangementController {
 	
 	private static final Logger log = (Logger) LoggerFactory.getLogger(UserManangementController.class);
@@ -31,6 +32,16 @@ public class UserManangementController {
 		try {
 			log.info("save tracker details");
 			return new ResponseEntity<>(userManagementService.getTracingInfoList(), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@GetMapping("/latest-tracker-details")
+	public ResponseEntity<List<TrackingInfo>> getLatestActiveTrakerDetails(@RequestParam("lastTimeStamp") String lastTimeStamp) {
+		try {
+			log.info("save tracker details");
+			return new ResponseEntity<>(userManagementService.getLatestTracingInfoList(lastTimeStamp), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
